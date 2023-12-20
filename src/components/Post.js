@@ -11,9 +11,7 @@ import { useLikePost } from "../hooks/useLikePost";
 
 const Post = (props) => {
   const authContext = useAuthContext();
-  const onClickHandler = () => {
-    console.log("clicked");
-  };
+  const onClickHandler = () => {};
   const date = new Date(props.date).toString().slice(0, 24);
 
   const { mutateAsync: likePost } = useLikePost();
@@ -75,6 +73,18 @@ const Post = (props) => {
                 />
                 {props.comments}
               </NotificationItem>
+              {props.delete  && <NotificationItem>
+                <img
+                  src={DeleteImage}
+                  style={{
+                    width: "18px",
+                    marginLeft: "5px",
+                    cursor: "pointer",
+                  }}
+                  title="Delete post"
+                  alt="Delete"
+                /> 
+              </NotificationItem>}
             </NotificationWrapper>
           )}
           {props.pending && authContext.user.role !== "Admin" && (

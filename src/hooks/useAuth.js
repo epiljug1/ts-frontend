@@ -12,10 +12,13 @@ export const useAuth = () => {
   useEffect(() => {
     async function get() {
       const { data } = await currentUser();
-      if (data.user) {
+      if (data.user || data.email) {
         context.login(data);
       }
-      setAuthState({ isLoading: false, isAuthenticated: !!data.user });
+      setAuthState({
+        isLoading: false,
+        isAuthenticated: !!(data.user || data.email),
+      });
     }
     if (!authState.isAuthenticated) {
       get();

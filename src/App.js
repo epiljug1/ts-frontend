@@ -10,6 +10,7 @@ import { useAuth } from "./hooks/useAuth";
 // Lazy imports for pages
 const SignUp = React.lazy(() => import("./pages/Signup"));
 const AllPosts = React.lazy(() => import("./pages/AllPosts"));
+const PopularPosts = React.lazy(() => import("./pages/PopularPosts"));
 const ClientPosts = React.lazy(() => import("./pages/ClientPosts"));
 const ListAllClients = React.lazy(() => import("./pages/ListAllClients"));
 const SignIn = React.lazy(() => import("./pages/Signin"));
@@ -36,6 +37,7 @@ function App() {
             <Route path="*" element={<div>Not Found</div>} />
             <Route path="/" element={<AllPosts />} />
             <Route path="/all-posts" element={<AllPosts />} />
+            <Route path="/popular-posts" element={<PopularPosts />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route
@@ -62,14 +64,7 @@ function App() {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/users-list"
-              element={
-                <RequireAuth>
-                  <ListAllClients />
-                </RequireAuth>
-              }
-            />
+            <Route path="/users-list" element={<ListAllClients />} />
           </Routes>
         </Suspense>
       </Content>

@@ -1,9 +1,12 @@
 import { api } from "../api/api.instance";
 
-export const getAllPosts = async (searchData) => {
-  let search = searchData.search ? `search=${searchData.search}` : ``;
-  let citySearch = searchData.search ? `&search=${searchData.search}` : ``;
-  const { data } = await api.get(`/posts?${search}${citySearch}`);
+export const getAllPosts = async () => {
+  const { data } = await api.get(`/posts`);
+  return data;
+};
+
+export const getPopularPost = async () => {
+  const { data } = await api.get(`/posts/popular`);
   return data;
 };
 

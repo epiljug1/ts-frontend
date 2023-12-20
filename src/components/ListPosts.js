@@ -5,6 +5,7 @@ import Spinner from "../components/Spinner";
 import NumOfPosts from "../components/NumOfPosts";
 import { useGetCities } from "../hooks/useGetCities";
 import Select from "react-select";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const customStyles = {
   control: (provided) => ({
@@ -32,6 +33,7 @@ const customStyles = {
 };
 
 const ListPosts = (props) => {
+  const context = useAuthContext();
   const { fetchPosts, pendingPosts } = props;
   const [search, setSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
@@ -84,6 +86,7 @@ const ListPosts = (props) => {
             pendingPosts={pendingPosts}
             onVerify={props.onVerify}
             onRemove={props.onRemove}
+            delete={post?.user?._id === context?.user?.id}
           />
         ))}
         {!isLoading && !allPosts.length && (

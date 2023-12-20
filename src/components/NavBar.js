@@ -20,18 +20,17 @@ const NavBar = (props) => {
     <NavWrapper>
       <span>
         <LinkStyle to="/all-posts">All Posts</LinkStyle>
+        <LinkStyle to="/popular-posts">Popular Posts</LinkStyle>
+        {context.user?.role === "Admin" && (
+          <LinkStyle to="/pending-posts">Pending Posts</LinkStyle>
+        )}
+        {context.user && <LinkStyle to="/personal-posts">Your Posts</LinkStyle>}
         {context.user && (
           <LinkStyle state={{ from: location.pathname }} to="/create-new-post">
             Create Post
           </LinkStyle>
         )}
-        {context.user?.role === "Admin" && (
-          <LinkStyle to="/pending-posts">Pending Posts</LinkStyle>
-        )}
-        {context.user && <LinkStyle to="/personal-posts">Your Posts</LinkStyle>}
-        {context.user?.role === "Admin" && (
-          <LinkStyle to="/users-list">Users</LinkStyle>
-        )}
+        <LinkStyle to="/users-list">Users</LinkStyle>
       </span>
       <NavPart>
         {context.user && (

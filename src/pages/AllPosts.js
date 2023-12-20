@@ -34,7 +34,6 @@ const AllPosts = () => {
   return (
     <>
       <NavBar />
-      <EditProfile />
       <ListPosts fetchPosts={useAllPosts} />
     </>
   );

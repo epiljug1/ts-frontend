@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import styled from "styled-components";
 import Client from "../components/Client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AuthContext as authContext } from "../context/authContext";
 import Spinner from "../components/Spinner";
 import { useAllUsers } from "../hooks/useAllUsers";
@@ -9,22 +9,15 @@ import { useAllUsers } from "../hooks/useAllUsers";
 const ListAllClients = (props) => {
   const context = useContext(authContext);
   const { data: allUsers, isLoading: loadingAllUsers } = useAllUsers();
-  // console.log("CONTEXT", context);
-  //   console.log(error.message);
-
-  console.log("allUsers: ", allUsers);
 
   return (
     <>
       <NavBar />
       {loadingAllUsers && <Spinner />}
       <MainWrapper>
-        <NumOfPosts>
-          Number of clients: <strong>{[]?.clients?.length}</strong>
-        </NumOfPosts>
         {allUsers?.map((client) => (
           <Client
-            key={client.id}
+            key={client.email}
             name={client.firstName}
             surname={client.lastName}
             email={client.email}
