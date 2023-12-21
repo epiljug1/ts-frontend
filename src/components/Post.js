@@ -8,6 +8,7 @@ import DeleteImage from "../images/delete-icon.png";
 import Button from "./Button";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLikePost } from "../hooks/useLikePost";
+import { useDeletePost } from "../hooks/useDeletePost";
 
 const Post = (props) => {
   const authContext = useAuthContext();
@@ -15,9 +16,14 @@ const Post = (props) => {
   const date = new Date(props.date).toString().slice(0, 24);
 
   const { mutateAsync: likePost } = useLikePost();
+  const { mutateAsync: removePost } = useDeletePost();
 
   const onLike = async () => {
     await likePost(props.id);
+  };
+
+  const onRemove = async () => {
+    await removePost(props.id);
   };
 
   return (
@@ -73,18 +79,20 @@ const Post = (props) => {
                 />
                 {props.comments}
               </NotificationItem>
-              {props.delete  && <NotificationItem>
-                <img
-                  src={DeleteImage}
-                  style={{
-                    width: "18px",
-                    marginLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                  title="Delete post"
-                  alt="Delete"
-                /> 
-              </NotificationItem>}
+              {props.delete && (
+                <NotificationItem onClick={onRemove}>
+                  <img
+                    src={DeleteImage}
+                    style={{
+                      width: "18px",
+                      marginLeft: "5px",
+                      cursor: "pointer",
+                    }}
+                    title="Delete post"
+                    alt="Delete"
+                  />
+                </NotificationItem>
+              )}
             </NotificationWrapper>
           )}
           {props.pending && authContext.user.role !== "Admin" && (
@@ -150,6 +158,7 @@ const NotificationItem = styled.button`
 
 const LocationWrapper = styled.div`
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 2%;
   width: 300px;

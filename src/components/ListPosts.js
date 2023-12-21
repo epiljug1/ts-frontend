@@ -6,6 +6,7 @@ import NumOfPosts from "../components/NumOfPosts";
 import { useGetCities } from "../hooks/useGetCities";
 import Select from "react-select";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { ButtonSpinner } from "./Button";
 
 const customStyles = {
   control: (provided) => ({
@@ -37,7 +38,15 @@ const ListPosts = (props) => {
   const { fetchPosts, pendingPosts } = props;
   const [search, setSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
-  const { data: allPosts, isLoading } = fetchPosts();
+  const [city, setCity] = useState("");
+  const {
+    data: allPosts,
+    isLoading,
+    isFetching: isFetchingPosts,
+  } = fetchPosts({
+    search,
+    city,
+  });
   const { data: citiesOptions, isLoading: isLoadingCities } =
     useGetCities(citySearch);
 
@@ -59,7 +68,7 @@ const ListPosts = (props) => {
           defaultOptions
           styles={customStyles}
           onInputChange={(newVal) => setCitySearch(newVal)}
-          onChange={(val) => console.log("VAL: ", val)}
+          onChange={(val) => (val ? setCity(val.value) : setCity(""))}
           isClearable
         />
       </FilterWrapper>
@@ -67,9 +76,15 @@ const ListPosts = (props) => {
       <MainWrapper>
         {!isLoading && allPosts && (
           <NumOfPosts>
-            Number of posts: <strong>{allPosts?.length}</strong>
+            Number of posts:{" "}
+            {isFetchingPosts ? (
+              <ButtonSpinner />
+            ) : (
+              <strong>{allPosts?.length}</strong>
+            )}
           </NumOfPosts>
         )}
+        {/* {isLoading && <ButtonSpinner />} */}
         {allPosts?.map((post) => (
           <Post
             {...post}
@@ -106,6 +121,7 @@ const ListPosts = (props) => {
   );
 };
 
+
 const FilterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -125,6 +141,7 @@ const NoPosts = styled.div`
 
 const SearchFilter = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Input = styled.input`
