@@ -3,14 +3,21 @@ import Image from "../images/user.png";
 import Button, { ButtonSpinner } from "./Button";
 import { useRemoveUser } from "../hooks/useRemoveUser";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useState } from "react";
+import EditProfile from "../pages/EditProfile";
 
 const Client = (props) => {
   const user = useAuthContext().user;
   const { mutateAsync, isLoading } = useRemoveUser();
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
   const onRemoveUser = async () => {
     await mutateAsync(props.id);
   };
+
+  const onEditUser = () => setIsOpen(true);
+
   return (
     <Wrapper>
       <Title>
@@ -27,10 +34,20 @@ const Client = (props) => {
       {user?.role === "Admin" && (
         <ButtonWrapper>
           <Button onClick={onRemoveUser}>
-            {isLoading ? <ButtonSpinner /> : "Remove Account"}
+            {isLoading ? <ButtonSpinner /> : "Delete"}
           </Button>
+          <Button onClick={onEditUser}>Edit</Button>
         </ButtonWrapper>
       )}
+      <EditProfile
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        firstName={props?.name}
+        lastName={props?.surname}
+        email={props?.email}
+        id={props?.id}
+        currentUser
+      />
     </Wrapper>
   );
 };

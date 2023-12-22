@@ -10,16 +10,24 @@ import { currentUser } from "../service/user.service";
 
 const EditProfile = (props) => {
   const context = useAuthContext();
-  const { modalIsOpen, setIsOpen } = props;
+  const {
+    modalIsOpen,
+    setIsOpen,
+    firstName,
+    lastName,
+    email,
+    id,
+    currentUser: isCurrentUser,
+  } = props;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: context.user?.firstName,
-      lastName: context.user?.lastName,
-      email: context.user?.email,
+      firstName,
+      lastName,
+      email,
       password: "",
     },
     mode: "onChange",
@@ -28,14 +36,16 @@ const EditProfile = (props) => {
   const { mutateAsync } = useUpdateUser();
 
   const onSubmit = async (data) => {
-    if (context.user.id) {
+    if (id) {
       await mutateAsync({
-        id: context.user.id,
+        id: id,
         ...data,
         password: data.password ? data.password : undefined,
       });
-      const { data: userData } = await currentUser();
-      context.login(userData);
+      if (isCurrentUser) {
+        const { data: userData } = await currentUser();
+        context.login(userData);
+      }
       setIsOpen(false);
     }
   };

@@ -88,18 +88,6 @@ const Post = (props) => {
                     />
                     {props.likes}
                   </NotificationItem>
-                  <NotificationItem>
-                    <img
-                      src={Comment}
-                      style={{
-                        width: "18px",
-                        marginLeft: "5px",
-                        cursor: "pointer",
-                      }}
-                      alt="Like"
-                    />
-                    {props.comments}
-                  </NotificationItem>
                   {(props.delete || authContext?.user?.role === "Admin") && (
                     <NotificationItem onClick={onRemove}>
                       <img

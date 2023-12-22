@@ -6,7 +6,7 @@ import EditProfile from "../pages/EditProfile";
 import { useState } from "react";
 
 const NavBar = (props) => {
-  const context = useAuthContext();
+  const user = useAuthContext().user;
   const location = useLocation();
   const logout = useLogout();
 
@@ -21,11 +21,11 @@ const NavBar = (props) => {
       <span>
         <LinkStyle to="/all-posts">All Posts</LinkStyle>
         <LinkStyle to="/popular-posts">Popular Posts</LinkStyle>
-        {context.user?.role === "Admin" && (
+        {user?.role === "Admin" && (
           <LinkStyle to="/pending-posts">Pending Posts</LinkStyle>
         )}
-        {context.user && <LinkStyle to="/personal-posts">Your Posts</LinkStyle>}
-        {context.user && (
+        {user && <LinkStyle to="/personal-posts">Your Posts</LinkStyle>}
+        {user && (
           <LinkStyle state={{ from: location.pathname }} to="/create-new-post">
             Create Post
           </LinkStyle>
@@ -33,20 +33,28 @@ const NavBar = (props) => {
         <LinkStyle to="/users-list">Users</LinkStyle>
       </span>
       <NavPart>
-        {context.user && (
+        {user && (
           <LinkStyle to="/signin" onClick={onSignOutHandler}>
             Logout
           </LinkStyle>
         )}
-        {context.user && (
+        {user && (
           <Button onClick={() => setIsOpen(true)}>
-            {`${context.user.firstName} ${context.user.lastName}`}
+            {`${user.firstName} ${user.lastName}`}
           </Button>
         )}
-        {!context.user && <LinkStyle to="/signup">Sign up</LinkStyle>}
-        {!context.user && <LinkStyle to="/signin">Sign in</LinkStyle>}
+        {!user && <LinkStyle to="/signup">Sign up</LinkStyle>}
+        {!user && <LinkStyle to="/signin">Sign in</LinkStyle>}
       </NavPart>
-      <EditProfile modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+      <EditProfile
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        firstName={user?.firstName}
+        lastName={user?.lastName}
+        email={user?.email}
+        id={user?.id}
+        currentUser
+      />
     </NavWrapper>
   );
 };
