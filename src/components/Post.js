@@ -1,22 +1,28 @@
 import styled from "styled-components";
+import Button from "./Button";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useLikePost } from "../hooks/useLikePost";
+import { useDeletePost } from "../hooks/useDeletePost";
+import { useState } from "react";
+import EditPost from "../pages/EditPost";
+
+//images
 import Image from "../images/user.png";
 import Location from "../images/location.png";
 import Like from "../images/like.png";
 import Liked from "../images/liked.png";
 import Comment from "../images/comment.png";
 import DeleteImage from "../images/delete-icon.png";
-import Button from "./Button";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useLikePost } from "../hooks/useLikePost";
-import { useDeletePost } from "../hooks/useDeletePost";
+import OpenPost from "../images/open.png";
 
 const Post = (props) => {
   const authContext = useAuthContext();
-  const onClickHandler = () => {};
   const date = new Date(props.date).toString().slice(0, 24);
 
   const { mutateAsync: likePost } = useLikePost();
   const { mutateAsync: removePost } = useDeletePost();
+
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const onLike = async () => {
     await likePost(props.id);
@@ -26,8 +32,21 @@ const Post = (props) => {
     await removePost(props.id);
   };
 
+  const onOpenPost = () => {
+    setIsOpen(true);
+  };
+
   return (
-    <MainWrapper onClick={onClickHandler}>
+    <MainWrapper>
+      <EditPost
+        // modalIsOpen={props.content === "evo ga"}
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        postId={props.id}
+        city={props.city}
+        content={props.content}
+        isUser={props.delete}
+      />
       <ContentWrapper>
         <HeaderWrapper>
           <Title>
@@ -53,48 +72,66 @@ const Post = (props) => {
             {/* {props.isUpdated ? "(Edited) " : ""} */}
             {date}
           </DateWrapper>
-          {authContext.user && !props.pendingPosts && !props.pending && (
+          {
             <NotificationWrapper>
-              <NotificationItem onClick={onLike}>
-                <img
-                  src={props.isLiked ? Liked : Like}
-                  style={{
-                    width: "18px",
-                    marginLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                  alt="Like"
-                />
-                {props.likes}
-              </NotificationItem>
-              <NotificationItem>
-                <img
-                  src={Comment}
-                  style={{
-                    width: "18px",
-                    marginLeft: "5px",
-                    cursor: "pointer",
-                  }}
-                  alt="Like"
-                />
-                {props.comments}
-              </NotificationItem>
-              {props.delete && (
-                <NotificationItem onClick={onRemove}>
+              {authContext.user && !props.pendingPosts && !props.pending && (
+                <>
+                  <NotificationItem onClick={onLike}>
+                    <img
+                      src={props.isLiked ? Liked : Like}
+                      style={{
+                        width: "18px",
+                        marginLeft: "5px",
+                        cursor: "pointer",
+                      }}
+                      alt="Like"
+                    />
+                    {props.likes}
+                  </NotificationItem>
+                  <NotificationItem>
+                    <img
+                      src={Comment}
+                      style={{
+                        width: "18px",
+                        marginLeft: "5px",
+                        cursor: "pointer",
+                      }}
+                      alt="Like"
+                    />
+                    {props.comments}
+                  </NotificationItem>
+                  {(props.delete || authContext?.user?.role === "Admin") && (
+                    <NotificationItem onClick={onRemove}>
+                      <img
+                        src={DeleteImage}
+                        style={{
+                          width: "18px",
+                          marginLeft: "5px",
+                          cursor: "pointer",
+                        }}
+                        title="Delete post"
+                        alt="Delete"
+                      />
+                    </NotificationItem>
+                  )}
+                </>
+              )}
+              {authContext.user && (
+                <NotificationItem onClick={onOpenPost}>
                   <img
-                    src={DeleteImage}
+                    src={OpenPost}
                     style={{
                       width: "18px",
                       marginLeft: "5px",
                       cursor: "pointer",
                     }}
-                    title="Delete post"
-                    alt="Delete"
+                    title="Open post"
+                    alt="Open post"
                   />
                 </NotificationItem>
               )}
             </NotificationWrapper>
-          )}
+          }
           {props.pending && authContext.user.role !== "Admin" && (
             <div>Waiting for admin approve</div>
           )}

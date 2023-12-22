@@ -34,7 +34,7 @@ const AllPosts = () => {
   return (
     <>
       <NavBar />
-      <ListPosts fetchPosts={useAllPosts} />
+      <ListPosts fetchPosts={useAllPosts} placeholder={"Latest posts"} />
     </>
   );
 };

@@ -31,3 +31,7 @@ export const getUserPosts = async (searchData) => {
   const { data } = await api.get("/users/posts" + query);
   return data;
 };
+
+export const deleteUser = async (id) => {
+  await api.delete(`/users/${id}`);
+};

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -18,10 +17,6 @@ const customStyles = {
 const NewModal = ({ children, ...rest }) => {
   const { modalIsOpen, setIsOpen } = rest;
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -29,7 +24,6 @@ const NewModal = ({ children, ...rest }) => {
   return (
     <Modal
       isOpen={modalIsOpen}
-      //   onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
       style={customStyles}
       contentLabel="Example Modal"

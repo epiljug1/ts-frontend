@@ -11,8 +11,7 @@ export const usePopularPosts = (searchData) => {
     () => getPopularPost(searchData),
     {
       onError: (err) => {
-        console.log("ERR: ", err);
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           navigate("/signin");
         }
       },

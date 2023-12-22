@@ -20,6 +20,7 @@ const ListAllClients = () => {
             name={client.firstName}
             surname={client.lastName}
             email={client.email}
+            id={client._id}
           />
         ))}
       </MainWrapper>

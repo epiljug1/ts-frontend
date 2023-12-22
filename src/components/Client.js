@@ -1,7 +1,16 @@
 import styled from "styled-components";
 import Image from "../images/user.png";
+import Button, { ButtonSpinner } from "./Button";
+import { useRemoveUser } from "../hooks/useRemoveUser";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Client = (props) => {
+  const user = useAuthContext().user;
+  const { mutateAsync, isLoading } = useRemoveUser();
+
+  const onRemoveUser = async () => {
+    await mutateAsync(props.id);
+  };
   return (
     <Wrapper>
       <Title>
@@ -15,9 +24,22 @@ const Client = (props) => {
       <div>
         Email: <strong>{props.email}</strong>
       </div>
+      {user?.role === "Admin" && (
+        <ButtonWrapper>
+          <Button onClick={onRemoveUser}>
+            {isLoading ? <ButtonSpinner /> : "Remove Account"}
+          </Button>
+        </ButtonWrapper>
+      )}
     </Wrapper>
   );
 };
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+`;
 
 const Wrapper = styled.div`
   width: 220px;

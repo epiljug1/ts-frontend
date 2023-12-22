@@ -31,7 +31,6 @@ const CreateNewPost = (props) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     await mutateAsync(data);
     navigate("/all-posts");
   };
@@ -59,7 +58,6 @@ const CreateNewPost = (props) => {
                 isClearable
                 onInputChange={(newVal) => setCitySearch(newVal)}
                 onChange={(val) => {
-                  console.log("VAL: ", val);
                   field.onChange(val?.value);
                 }}
               />

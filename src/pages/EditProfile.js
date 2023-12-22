@@ -28,7 +28,6 @@ const EditProfile = (props) => {
   const { mutateAsync } = useUpdateUser();
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (context.user.id) {
       await mutateAsync({
         id: context.user.id,

@@ -8,8 +8,7 @@ export const useAllUsers = () => {
   const authContext = useAuthContext();
   return useQuery(["all-users", authContext?.user?.id], getAllUsers, {
     onError: (err) => {
-      console.log("ERR: ", err);
-      if (err.response.status === 401) {
+      if (err.response?.status === 401) {
         navigate("/signin");
       }
     },

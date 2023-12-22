@@ -5,9 +5,9 @@ export const useLikePost = (props) => {
   const queryClient = useQueryClient();
   return useMutation(likePost, {
     onSuccess: ({ data }) => {
-      console.log("liked post");
-      queryClient.refetchQueries(["all-posts"]);
-      queryClient.refetchQueries(["user-posts"]);
+      queryClient.invalidateQueries(["all-posts"]);
+      queryClient.invalidateQueries(["popular-posts"]);
+      queryClient.invalidateQueries(["user-posts"]);
     },
     ...props,
   });

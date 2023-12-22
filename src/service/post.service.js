@@ -7,6 +7,11 @@ export const getAllPosts = async (searchData) => {
   return data;
 };
 
+export const getPost = async (id) => {
+  const { data } = await api.get(`/posts/${id}`);
+  return data;
+};
+
 export const getPopularPost = async (searchData) => {
   const query = getSearchQuery(searchData);
   const { data } = await api.get(`/posts/popular${query}`);
@@ -15,6 +20,11 @@ export const getPopularPost = async (searchData) => {
 
 export const createPost = async (postData) => {
   const { data } = await api.post("/posts/create", postData);
+  return data;
+};
+
+export const updatePost = async ({ id, ...postData }) => {
+  const { data } = await api.put(`/posts/${id}`, postData);
   return data;
 };
 

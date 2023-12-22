@@ -8,9 +8,10 @@ export const useDeletePost = (props) => {
   return useMutation(deletePost, {
     onSuccess: () => {
       toast("Post successfully removed.");
-      queryClient.refetchQueries(["pending-posts"]);
-      queryClient.refetchQueries(["all-posts"]);
-      queryClient.refetchQueries(["user-posts"]);
+      queryClient.invalidateQueries(["pending-posts"]);
+      queryClient.invalidateQueries(["popular-posts"]);
+      queryClient.invalidateQueries(["all-posts"]);
+      queryClient.invalidateQueries(["user-posts"]);
     },
     ...props,
   });

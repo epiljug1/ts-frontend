@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { verifyPost } from "../service/post.service";
+import { deleteUser } from "../service/user.service";
 
-export const useVerifyPost = (props) => {
+export const useRemoveUser = (props) => {
   const queryClient = useQueryClient();
 
-  return useMutation(verifyPost, {
-    onSuccess: ({ data }) => {
-      toast("Post successfully verified.");
+  return useMutation(deleteUser, {
+    onSuccess: () => {
+      toast("User successfully removed.");
+      queryClient.invalidateQueries(["all-users"]);
       queryClient.invalidateQueries(["pending-posts"]);
       queryClient.invalidateQueries(["popular-posts"]);
       queryClient.invalidateQueries(["all-posts"]);

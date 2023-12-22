@@ -10,7 +10,6 @@ export const useCreatePost = (props) => {
       queryClient.invalidateQueries(["pending-posts"]);
       queryClient.invalidateQueries(["all-posts"]);
       queryClient.invalidateQueries(["user-posts"]);
-      console.log("Created post: ", data);
     },
     ...props,
   });

@@ -74,9 +74,10 @@ const ListPosts = (props) => {
       </FilterWrapper>
       {isLoading && <Spinner />}
       <MainWrapper>
-        {!isLoading && allPosts && (
+        {!context?.user && <NumOfPosts>{props.placeholder}</NumOfPosts>}
+        {!isLoading && allPosts && context?.user && (
           <NumOfPosts>
-            Number of posts:{" "}
+            Number of posts:
             {isFetchingPosts ? (
               <ButtonSpinner />
             ) : (
@@ -84,7 +85,6 @@ const ListPosts = (props) => {
             )}
           </NumOfPosts>
         )}
-        {/* {isLoading && <ButtonSpinner />} */}
         {allPosts?.map((post) => (
           <Post
             {...post}
@@ -120,7 +120,6 @@ const ListPosts = (props) => {
     </>
   );
 };
-
 
 const FilterWrapper = styled.div`
   display: flex;

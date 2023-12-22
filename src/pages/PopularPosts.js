@@ -6,7 +6,7 @@ const PopularPosts = () => {
   return (
     <>
       <NavBar />
-      <ListPosts fetchPosts={usePopularPosts} />
+      <ListPosts fetchPosts={usePopularPosts} placeholder={"Most popular posts"}/>
     </>
   );
 };

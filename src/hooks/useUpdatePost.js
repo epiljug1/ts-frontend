@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-import { verifyPost } from "../service/post.service";
+import { updatePost } from "../service/post.service";
 
-export const useVerifyPost = (props) => {
+export const useUpdatePost = (props) => {
   const queryClient = useQueryClient();
-
-  return useMutation(verifyPost, {
+  return useMutation(updatePost, {
     onSuccess: ({ data }) => {
-      toast("Post successfully verified.");
+      toast("Successfully updated a post.");
+      queryClient.invalidateQueries(["single-post", data.id]);
       queryClient.invalidateQueries(["pending-posts"]);
-      queryClient.invalidateQueries(["popular-posts"]);
       queryClient.invalidateQueries(["all-posts"]);
       queryClient.invalidateQueries(["user-posts"]);
     },

@@ -6,13 +6,10 @@ const NumOfPosts = (props) => {
 
 const NuberOfPosts = styled.div`
   color: rgba(0, 0, 0, 0.9);
-  //   position: absolute;
-  //   top: 20px;
-  //   left: 30px;
-
   width: fit-content;
   margin: 10px auto;
+  font-size: 1.3rem;
+  font-style: italic;
 `;
 
-//#ffffff
 export default NumOfPosts;

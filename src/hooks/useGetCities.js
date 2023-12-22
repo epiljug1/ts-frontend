@@ -7,7 +7,7 @@ export const useGetCities = (search) => {
   return useQuery(["cities", search], () => getCity(search), {
     enabled: !!search,
     onError: (err) => {
-      if (err.response.status === 401) {
+      if (err.response?.status === 401) {
         navigate("/signin");
       }
     },
