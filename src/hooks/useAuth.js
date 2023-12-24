@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { currentUser } from "../service/user.service";
+import { api } from "../api/api.instance";
+import { useNavigate } from "react-router";
 
 export const useAuth = () => {
+  const navigate = useNavigate();
   const context = useAuthContext();
   const [authState, setAuthState] = useState({
     isLoading: !context.user,
@@ -11,14 +14,23 @@ export const useAuth = () => {
 
   useEffect(() => {
     async function get() {
-      const { data } = await currentUser();
-      if (data.user || data.email) {
-        context.login(data);
+      try {
+        const { data } = await currentUser();
+        if (data.user || data.email) {
+          context.login(data);
+        }
+
+        setAuthState({
+          isLoading: false,
+          isAuthenticated: !!(data.user || data.email),
+        });
+      } catch (error) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("name");
+        localStorage.removeItem("email");
+        delete api.defaults.headers.common["Authorization"];
+        navigate("/signin");
       }
-      setAuthState({
-        isLoading: false,
-        isAuthenticated: !!(data.user || data.email),
-      });
     }
     if (!authState.isAuthenticated) {
       get();

@@ -24,8 +24,10 @@ const NavBar = (props) => {
         {user?.role === "Admin" && (
           <LinkStyle to="/pending-posts">Pending Posts</LinkStyle>
         )}
-        {user && <LinkStyle to="/personal-posts">Your Posts</LinkStyle>}
-        {user && (
+        {user && user?.role !== "Admin" && (
+          <LinkStyle to="/personal-posts">Your Posts</LinkStyle>
+        )}
+        {user && user?.role !== "Admin" && (
           <LinkStyle state={{ from: location.pathname }} to="/create-new-post">
             Create Post
           </LinkStyle>

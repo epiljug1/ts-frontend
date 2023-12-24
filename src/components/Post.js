@@ -104,20 +104,22 @@ const Post = (props) => {
                   )}
                 </>
               )}
-              {authContext.user && (
-                <NotificationItem onClick={onOpenPost}>
-                  <img
-                    src={OpenPost}
-                    style={{
-                      width: "18px",
-                      marginLeft: "5px",
-                      cursor: "pointer",
-                    }}
-                    title="Open post"
-                    alt="Open post"
-                  />
-                </NotificationItem>
-              )}
+              {authContext.user &&
+                !props.pending &&
+                authContext.user.role !== "Admin" && (
+                  <NotificationItem onClick={onOpenPost}>
+                    <img
+                      src={OpenPost}
+                      style={{
+                        width: "18px",
+                        marginLeft: "5px",
+                        cursor: "pointer",
+                      }}
+                      title="Open post"
+                      alt="Open post"
+                    />
+                  </NotificationItem>
+                )}
             </NotificationWrapper>
           }
           {props.pending && authContext.user.role !== "Admin" && (

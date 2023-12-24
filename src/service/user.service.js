@@ -6,6 +6,7 @@ export const loginUser = async (data) => {
 };
 
 export const logoutUser = async () => {
+  delete api.defaults.headers.common["Authorization"];
   return await api.post("/users/logout");
 };
 
