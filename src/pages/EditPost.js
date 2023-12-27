@@ -78,7 +78,9 @@ const EditPost = (props) => {
                   <div>{getDate(item.createdAt)}</div>
                 </CommentHeader>
                 <Label>{item.content}</Label>
-                {(item.user.id === user.id || props.isUser) && (
+                {(item.user.id === user.id ||
+                  props.isUser ||
+                  user.role === "Admin") && (
                   <DeleteItem onClick={() => onRemoveComment(item.id)}>
                     <img
                       src={DeleteImage}
